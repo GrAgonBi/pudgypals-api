@@ -1,17 +1,16 @@
-// const bycrypt = require("bcryptjs");
-
-// // console.log("user1:", bycrypt.hashSync("user1"));
-// // console.log("user2:", bycrypt.hashSync("user2"));
 require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 8080;
+const authRouter = require("./routes/auth");
 
 //access the req body
 app.use(cors());
 app.use(express.json());
+app.use("/auth", authRouter);
 
+//test for initial setup
 app.get("/", (req, res) => {
   return res.send("Welcome to App");
 });
