@@ -1,6 +1,3 @@
-// // console.log("user1:", bycrypt.hashSync("user1"));
-// // console.log("user2:", bycrypt.hashSync("user2"));
-require("dotenv").config();
 const knex = require("knex")(require("../knexfile"));
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -87,7 +84,3 @@ const login = async (req, res) => {
 };
 
 module.exports = { register, login };
-
-// {
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJ1c2VyM0BleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidXNlcjMiLCJpYXQiOjE3MTA5OTM0MzQsImV4cCI6MTcxMTA3OTgzNH0.eIKoILaPoW5kpuNyr_y7QHBzMihBtPUkolOW7aTA9pw"
-// }
