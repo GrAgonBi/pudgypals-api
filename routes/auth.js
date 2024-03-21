@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { register, login } = require("../controllers/user-controller");
+const { register, login } = require("../controllers/auth-controller");
 
 //test for initial setup
 router.route("/").get((req, res) => {
