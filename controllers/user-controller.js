@@ -1,4 +1,3 @@
-require("dotenv").config();
 const knex = require("knex")(require("../knexfile"));
 
 //user3
@@ -10,6 +9,16 @@ const createProfile = async (req, res) => {
   //extract user id from req
   //req.decoded is defined from authorize middleware
   const { id } = req.decoded;
+
+  // //check for account
+  // try {
+  //   const user = knex("users").where({ id }).first();
+  //   if (!user) {
+  //     return res.status(404).json("Message: no such user");
+  //   }
+  // } catch (e) {
+  //   return res.status(500).json(`Message: ${e}`);
+  // }
 
   //check for existed profile
   try {
@@ -72,9 +81,13 @@ const getProfile = async (req, res) => {
         "users.username",
         "userInitialRecords.height",
         "userInitialRecords.initialWeight",
-        "userInitialRecords.initialDate",
+        knex.raw(
+          "DATE_FORMAT(userInitialRecords.initialDate, '%Y-%m-%d') as initialDate"
+        ),
         "userInitialRecords.targetWeight",
-        "userInitialRecords.targetDate"
+        knex.raw(
+          "DATE_FORMAT(userInitialRecords.targetDate, '%Y-%m-%d') as targetDate"
+        )
       )
       .first();
 
@@ -90,26 +103,34 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   const { id } = req.decoded;
-  const { height, initialWeight, initialDate, targetWeight, targetDate } =
-    req.body;
+  //check for account
+  try {
+    const user = knex("users").where({ id }).first();
+    if (!user) {
+      return res.status(404).json("Message: no such user");
+    }
+  } catch (e) {
+    return res.status(500).json(`Message: ${e}`);
+  }
+  const { targetWeight, targetDate } = req.body;
 
   try {
     const updatedProfile = await knex("userInitialRecords")
       .where({ user_id: id })
-      .update({ height, initialWeight, initialDate, targetWeight, targetDate });
+      .update({ targetWeight, targetDate });
 
     if (updatedProfile === 0) {
       return res.status(404).json("Message: User profile not found");
     }
 
-    const updatedWeightRecords = await knex("weightRecords")
-      .where({ user_id: id })
-      .first()
-      .update({ weight: initialWeight, date: initialDate });
+    // const updatedWeightRecords = await knex("weightRecords")
+    //   .where({ user_id: id })
+    //   .first()
+    //   .update({ weight: initialWeight, date: initialDate });
 
-    if (updatedWeightRecords === 0) {
-      return res.status(404).json("Message: Weight record not found");
-    }
+    // if (updatedWeightRecords === 0) {
+    //   return res.status(404).json("Message: Weight record not found");
+    // }
     return res.status(204).json("Message: Profile has been updated");
   } catch (e) {
     return res.status(500).json(`Message: ${e}`);

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { authorize } = require("../controllers/authorize");
+const { authorize } = require("../utility/utility");
 const {
   createProfile,
   getProfile,
