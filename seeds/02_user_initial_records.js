@@ -11,6 +11,7 @@ exports.seed = async function (knex) {
       user_id: 1,
       height: 175, // cm
       initialWeight: 160, // lb
+      initialDate: "2024-02-17",
       targetWeight: 140, // lb
       targetDate: "2024-06-30",
     },
@@ -19,6 +20,7 @@ exports.seed = async function (knex) {
       user_id: 2,
       height: 180, // cm
       initialWeight: 180, // lb
+      initialDate: "2024-01-20",
       targetWeight: 160, // lb
       targetDate: "2024-07-15",
     },

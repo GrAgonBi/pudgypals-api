@@ -13,6 +13,7 @@ exports.up = function (knex) {
       .onDelete("CASCADE");
     table.decimal("height").notNullable();
     table.decimal("initialWeight").notNullable();
+    table.date("initialDate").notNullable();
     table.decimal("targetWeight").notNullable();
     table.date("targetDate").notNullable();
     table.timestamp("created_at").defaultTo(knex.fn.now());

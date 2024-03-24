@@ -14,7 +14,7 @@ exports.seed = async function (knex) {
     { id: 6, user_id: 1, weight: 142, date: "2024-03-11" },
     { id: 7, user_id: 1, weight: 140, date: "2024-03-16" },
     { id: 8, user_id: 1, weight: 138, date: "2024-03-21" },
-    { id: 9, user_id: 2, weight: 175, date: "2024-02-20" },
+    { id: 9, user_id: 2, weight: 175, date: "2024-01-20" },
     { id: 10, user_id: 2, weight: 172, date: "2024-01-25" },
     { id: 11, user_id: 2, weight: 170, date: "2024-02-01" },
     { id: 12, user_id: 2, weight: 168, date: "2024-03-06" },
