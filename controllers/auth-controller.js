@@ -19,15 +19,17 @@ const register = async (req, res) => {
       .first();
     const existedEmail = await knex("users").where({ email: email }).first();
     if (existedUsername || existedEmail) {
-      return res.status(400).json({
-        Message: `${
-          existedUsername
-            ? existedEmail
-              ? "Username and email already exist"
-              : "Username already exists"
-            : "Email already exists"
-        } `,
-      });
+      return res
+        .status(400)
+        .json(
+          `${
+            existedUsername
+              ? existedEmail
+                ? "Username and email already exist"
+                : "Username already exists"
+              : "Email already exists"
+          } `
+        );
     }
 
     //insert into db
@@ -48,7 +50,7 @@ const register = async (req, res) => {
     );
     return res.status(201).send({ token });
   } catch (e) {
-    return res.status(500).json(`Message: ${e}`);
+    return res.status(500).json(`${e}`);
   }
 };
 
@@ -79,7 +81,7 @@ const login = async (req, res) => {
     );
     return res.status(201).send({ token });
   } catch (e) {
-    return res.status(500).json(`Error: ${e}`);
+    return res.status(500).json(`${e}`);
   }
 };
 
