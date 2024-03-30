@@ -14,6 +14,11 @@ app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/weight", weightRouter);
 
+//deploy testing
+app.get("/", (_req, res) => {
+  res.send("Welcom to pudgypal-api");
+});
+
 app.listen(PORT, () => {
   console.log(`running on port: ${PORT}`); // may need change url when deployed
 });
