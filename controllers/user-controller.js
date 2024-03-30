@@ -11,7 +11,7 @@ const createProfile = async (req, res) => {
       .where({ user_id: id })
       .first();
     if (existedUser) {
-      return res.status(400).json("Profile already exist");
+      return res.status(400).json("Profile already exists");
     }
   } catch (e) {
     return res.status(500).json(`Message: ${e}`);
@@ -22,9 +22,12 @@ const createProfile = async (req, res) => {
   //check for required fields
   if (
     !height ||
+    height == 0 ||
     !initialWeight ||
+    initialWeight == 0 ||
     !initialDate ||
     !targetWeight ||
+    targetWeight == 0 ||
     !targetDate
   ) {
     return res.status(400).json("Please fill all required fields");
@@ -89,16 +92,12 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   const { id } = req.decoded;
-  //check for account
-  try {
-    const user = knex("users").where({ id }).first();
-    if (!user) {
-      return res.status(404).json("Message: no such user");
-    }
-  } catch (e) {
-    return res.status(500).json(`Message: ${e}`);
-  }
+
   const { targetWeight, targetDate } = req.body;
+
+  if (!targetDate || !targetWeight || targetWeight == 0) {
+    return res.status(400).json("Please fill all required fields");
+  }
 
   try {
     const updatedProfile = await knex("userInitialRecords")
@@ -108,15 +107,6 @@ const updateProfile = async (req, res) => {
     if (updatedProfile === 0) {
       return res.status(404).json("Message: User profile not found");
     }
-
-    // const updatedWeightRecords = await knex("weightRecords")
-    //   .where({ user_id: id })
-    //   .first()
-    //   .update({ weight: initialWeight, date: initialDate });
-
-    // if (updatedWeightRecords === 0) {
-    //   return res.status(404).json("Message: Weight record not found");
-    // }
     return res.status(204).json("Message: Profile has been updated");
   } catch (e) {
     return res.status(500).json(`Message: ${e}`);

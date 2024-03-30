@@ -1,12 +1,13 @@
 const router = require("express").Router();
-const { register, login } = require("../controllers/auth-controller");
-
-//test for initial setup
-router.route("/").get((req, res) => {
-  res.send("Welcome to auth");
-});
+const {
+  register,
+  login,
+  getAccount,
+} = require("../controllers/auth-controller");
+const { authorize } = require("../utility/utility");
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/account", authorize, getAccount);
 
 module.exports = router;

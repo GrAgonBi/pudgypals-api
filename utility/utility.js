@@ -3,27 +3,27 @@ const knex = require("knex")(require("../knexfile"));
 
 const authorize = async (req, res, next) => {
   const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).send("Authorization header is required");
+  }
   const token = authorization.split(" ")[1];
   // console.log(token);
+  if (!token) {
+    return res.status(401).send("Token is required");
+  }
 
   try {
     const payload = jwt.verify(token, process.env.SECRET_KEY);
     req.decoded = payload;
-    // console.log(req.decoded);
-    next();
-  } catch (e) {
-    res.status(401).send("Invalid auth token, please login again");
-  }
-
-  const { id } = req.decoded;
-  //check for account
-  try {
+    //check for account existance
+    const { id } = req.decoded;
     const user = await knex("users").where({ id }).first();
     if (!user) {
       return res.status(404).json("Message: no such user");
     }
+    next();
   } catch (e) {
-    return res.status(500).json(`Message: ${e}`);
+    res.status(401).send(`${e}`);
   }
 };
 

@@ -56,17 +56,27 @@ const postWeight = async (req, res) => {
 
   const { weight } = req.body;
 
-  if (!weight) {
-    return res.status.json("Message: please fill in requested weight value");
+  if (!weight || weight == 0) {
+    return res.status(400).json("Please fill in requested weight value");
   }
 
   //insert record into db
 
   try {
+    const today = formatDate();
+    //check for exist records
+    const result = await knex("weightRecords")
+      .where({ user_id: id, date: today })
+      .first();
+    if (result) {
+      return res
+        .status(400)
+        .json("It seems like you have already recorded your weight today.");
+    }
     await knex("weightRecords").insert({
       user_id: id,
       weight,
-      date: formatDate(),
+      date: today,
     });
 
     return res.status(201).json("Message: weight is recorded successfully!");

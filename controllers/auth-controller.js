@@ -85,4 +85,15 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getAccount = async (req, res) => {
+  const { id } = req.decoded;
+  //get account info
+  try {
+    const user = await knex("users").where({ id }).first();
+    return res.status(200).json({ username: user.username, email: user.email });
+  } catch (e) {
+    return res.status(500).json(`Message: ${e}`);
+  }
+};
+
+module.exports = { register, login, getAccount };
