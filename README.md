@@ -4,7 +4,7 @@ this is the backend API of [PudgyPals](https://github.com/GrAgonBi/pudgypals)
 
 ## Installation
 
-## setup backend api
+## Set up backend api
 
 1. Clone or download this repo.
 2. Create a new database in MySQL called `pudgypals`.
@@ -45,4 +45,4 @@ this is the backend API of [PudgyPals](https://github.com/GrAgonBi/pudgypals)
 
 ## Set up the frontend
 
-[Click me](https://github.com/GrAgonBi/pudgypals#Installation) to continue the frontend setup
+[Click me](https://github.com/GrAgonBi/pudgypals#set-up-the-frontend) to continue the frontend setup
